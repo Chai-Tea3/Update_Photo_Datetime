@@ -18,6 +18,20 @@ def get_file_dir(path):
             list_of_files.append(cur_path)
 
 
+#Extracts the date and time from the file name and returns an array in the order year, month, day, hour, min, sec
+def get_date_time(file_name):
+    index = file_name.rfind("_", 0, len(file_name) - 10) #Finds the last "_" in the path/file name
+
+    year = int(file_name[index - 8:index - 4])
+    month = int(file_name[index - 4:index - 2])
+    day = int(file_name[index - 2:index])
+    hour = int(file_name[index + 1:index + 3])
+    min = int(file_name[index + 3:index + 5])
+    sec = int(file_name[index + 5:index + 7])
+
+    return [year,month,day,hour,min,sec]
+
+
 #Uses the date in the file name to update the photo metadata
 def change_creation_date():
 
@@ -30,22 +44,18 @@ def change_creation_date():
 
     for file in list_of_files:
 
-        #Detects the naming convention of the photos (IMG_YYYYMMDD_#######)
+        #Detects the naming convention of the photos (IMG_YYYYMMDD_HHMMSS)
         if(file.rfind("IMG_20") > 0):
-            index = file.rfind("IMG_20")
-            year = int(file[index + 4:index + 8])
-            month = int(file[index + 8:index + 10])
-            day = int(file[index + 10:index + 12])
+            dt = get_date_time(file)
         elif(file.find("Screenshot_") > 0):
-           index = file.rfind("IMG_20")
-           year = int(file[index + 11:index + 15])
-           month = int(file[index + 15:index + 17])
-           day = int(file[index + 17:index + 19])
+            dt = get_date_time(file)
+        elif(file.find("20") == (file.find(".") - 15)):
+            dt = get_date_time(file)
         else:
             #If the file does not match the above parameters, skips to the next file
             continue
 
-        datetime_original = datetime(year=year,month=month,day=day)
+        datetime_original = datetime(dt[0],dt[1],dt[2],dt[3],dt[4],dt[5])
 
         try:
             with open(file, "rb") as image_file:
