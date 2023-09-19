@@ -1,4 +1,4 @@
-# modify-exif
+# Update_Photo_Datetime
 Accepts the following naming conventions:
 -  YYYYMMDD_HHMMSS.xxx
 -  IMG_YYYYMMDD_HHMMSS.xxx
