@@ -1,2 +1,2 @@
 # modify-exif
-Changes photo EXIF date to match the one in file name 
+Changes photo EXIF date and time according to the file name
